@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mamkas</title>
+  <meta name="description" content="Professionelle Nachhilfe von erfahrenen Student*innen. Fair, individuell und mit Spaß am Lernen." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #FF1654;
+      --pink-light: #FF4A7A;
+      --pink-dark: #E60043;
+      --bg: #FAFAFA;
+      --text: #1A1A1A;
+      --text-muted: #666666;
+      --white: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: var(--pink);
+      color: var(--white);
+      padding: 5rem 1.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(0,0,0,0.1) 100%);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+      text-transform: lowercase;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      font-weight: 400;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    section {
+      padding: 4rem 0;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 700;
+      margin-bottom: 3rem;
+      text-align: center;
+      color: var(--text);
+    }
+
+    /* Cards Grid */
+    .grid {
+      display: grid;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (min-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 1rem;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(255, 22, 84, 0.12);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--pink);
+      font-weight: 700;
+    }
+
+    .card p {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* About Section */
+    .about {
+      background: var(--white);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .about h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .about p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    /* CTA Button */
+    .button {
+      display: inline-block;
+      padding: 1rem 2.5rem;
+      border-radius: 100px;
+      background: var(--pink);
+      color: var(--white);
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(255, 22, 84, 0.3);
+      border: none;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background: var(--pink-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 22, 84, 0.4);
+    }
+
+    .button:active {
+      transform: translateY(0);
+    }
+
+    .cta-center {
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      border-top: 1px solid #E5E5E5;
+      margin-top: 4rem;
+    }
+
+    footer a {
+      color: var(--pink);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Emoji accent */
+    .emoji {
+      font-style: normal;
+      margin-left: 0.3rem;
+    }
+
+    /* Process Steps */
+    .process {
+      background: var(--white);
+      border-radius: 1.5rem;
+      padding: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .process-steps {
+      display: grid;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .process-steps {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-number {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      background: var(--pink);
+      color: var(--white);
+      border-radius: 50%;
+      font-size: 1.75rem;
+      font-weight: 700;
+      line-height: 60px;
+      margin-bottom: 1rem;
+    }
+
+    .step h3 {
+      font-size: 1.25rem;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .step p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="hero-content">
+      <div class="brand">mamkas</div>
+      <h1>Nachhilfe, so wie du sie dir wünschst.</h1>
+      <p>
+        Wir vermitteln dich an eine unserer erfahrenen Student*innen, die sich 
+        mit deinem Thema und Fach sehr gut auskennt und Lust hat, dir zu einem fairen Preis beim 
+        Lernen zu helfen. <span class="emoji">;)</span>
+      </p>
+      <div class="cta-center">
+        <a class="button" href="#kontakt">Jetzt Anfragen</a>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <h2>Was wir bieten</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Unser Fokus</h3>
+          <p>
+            Unsere Studierenden bieten hauptsächlich Online-Nachhilfe an für Kinder und Jugendliche ab der 7. Klasse bis zum Abitur.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Individuelle Betreuung</h3>
+          <p>
+            Wir nehmen auf deine Bedürfnisse Rücksicht. Wenn du mit einem Tutor nicht zufrieden sein solltest, kannst du dich wieder an uns wenden. Dann finden wir eine neue Lösung. :)
+          </p>
+        </div>
+        <div class="card">
+          <h3>Klare Erklärungen</h3>
+          <p>
+            Komplexe Themen werden verständlich erklärt – mit Intuition und 
+            praktischen Beispielen, die wirklich hängen bleiben.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Fairer Preis</h3>
+          <p>
+            Als studentische Nachhilfe bieten 
+            wir professionelle Unterstützung zu fairen Konditionen.
+            Du vereinbarst die Bezahlung direkt mit deiner Student*in, nachdem ihr euch bei einer ersten, kurzen Session kennenlernt.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: var(--bg); padding: 4rem 0;">
+    <div class="container">
+      <div class="process">
+        <h2>So einfach geht's</h2>
+        <div class="process-steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <h3>Kontakt aufnehmen</h3>
+            <p>Schreib uns eine kurze Nachricht mit deinem Vornamen, deinem Fach, deiner Klassenstufe und deinen Zielen. Das wars!</p>
+          </div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <h3>Matching</h3>
+            <p>Wir suchen dir eine passende Nachhilfe-Person für dich aus unserem Team.</p>
+          </div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <h3>Loslegen</h3>
+            <p>Erste Session vereinbaren und gemeinsam durchstarten!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="about">
+        <h2>Über uns</h2>
+        <p>
+          Wir sind ein Team von motivierten Student*innen verschiedener Fachrichtungen, 
+          die ihre Begeisterung für ihr Fach weitergeben möchten. Unser Ziel ist es nicht 
+          nur bessere Noten, sondern echtes Verständnis und Selbstvertrauen beim Lernen aufzubauen.
+        </p>
+        <p>
+          Aufgrund unserer aktuellen Besetzung und da unsere Student*innen hauptsächlich an der Technischen Universität studieren, sind wir auf Mathematik, Informatik sowie Physik und Chemie spezialisiert.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="kontakt" style="background: var(--white); padding: 5rem 0;">
+    <div class="container">
+      <h2>Bereit loszulegen?</h2>
+      <p style="text-align: center; max-width: 650px; margin: 0 auto 2.5rem; font-size: 1.125rem; color: var(--text-muted);">
+        Schreib uns eine E-Mail und wir melden uns schnellstmöglich innerhalb eines Tages
+        bei dir, um die Details zu besprechen und die perfekte Nachhilfe für dich zu finden.
+      </p>
+      <div class="cta-center">
+        <a class="button" href="mailto:kontakt@example.com" style="font-size: 1.2rem;">info@mamkas.com</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © <span id="year"></span> mamkas · Alle Rechte vorbehalten
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
