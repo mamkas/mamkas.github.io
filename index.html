@@ -319,7 +319,13 @@
     @media (max-width: 767px) {
       .step { border-bottom: 1px solid #F0F0F0; }
       .step:last-child { border-bottom: none; }
-      .step.is-active { background: rgba(255, 22, 84, 0.05); border-radius: 0.75rem; }
+      /* FIX: give active step the same full pink background as desktop */
+      .step.is-active {
+        background: linear-gradient(135deg, #FF1654 0%, #FF4A7A 100%);
+        border-radius: 0.75rem;
+        box-shadow: 0 8px 32px rgba(255, 22, 84, 0.3);
+        border-bottom: none;
+      }
     }
 
     .step-number {
