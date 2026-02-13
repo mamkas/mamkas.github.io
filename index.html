@@ -232,7 +232,7 @@
     }
 
     /* =============================================
-       PROCESS STEPS – Fluid Shader Animation
+       PROCESS STEPS – Sliding Pill Animation
        ============================================= */
     .process {
       background: var(--white);
@@ -244,19 +244,54 @@
     .process-steps-wrapper {
       position: relative;
       margin-top: 2rem;
-      border-radius: 1rem;
-      overflow: hidden;
     }
 
-    /* The WebGL canvas sits behind everything */
-    #stepCanvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 1rem;
-      pointer-events: none;
-      z-index: 0;
+    /* Connector track + fill (desktop only) */
+    .connector-track,
+    .connector-fill {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .connector-track,
+      .connector-fill {
+        display: block;
+        position: absolute;
+        top: 70px; /* center of number circle: 40px padding + 30px radius */
+        height: 2px;
+        pointer-events: none;
+        left: calc(100% / 6);
+        width: calc(100% * 2 / 3);
+      }
+      .connector-track { background: #E5E5E5; z-index: 0; }
+      .connector-fill  {
+        background: var(--pink);
+        z-index: 1;
+        width: 0%;
+        transition: width 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+      }
+    }
+
+    /* Sliding highlight pill */
+    .step-highlight {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .step-highlight {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 33.333%;
+        height: 100%;
+        background: linear-gradient(135deg, #FF1654 0%, #FF4A7A 100%);
+        border-radius: 1rem;
+        transition: transform 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+        z-index: 0;
+        box-shadow: 0 8px 32px rgba(255, 22, 84, 0.3);
+        pointer-events: none;
+      }
     }
 
     .process-steps {
@@ -282,14 +317,9 @@
     }
 
     @media (max-width: 767px) {
-      .step {
-        border-bottom: 1px solid #F0F0F0;
-      }
+      .step { border-bottom: 1px solid #F0F0F0; }
       .step:last-child { border-bottom: none; }
-      .step.is-active {
-        background: rgba(255, 22, 84, 0.06);
-        border-radius: 0.75rem;
-      }
+      .step.is-active { background: rgba(255, 22, 84, 0.05); border-radius: 0.75rem; }
     }
 
     .step-number {
@@ -306,9 +336,9 @@
       margin-bottom: 1rem;
       position: relative;
       z-index: 2;
-      transition: background 0.6s ease, color 0.6s ease,
-                  transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-                  box-shadow 0.6s ease;
+      transition: background 0.35s ease, color 0.35s ease,
+                  transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  box-shadow 0.35s ease;
       box-shadow: 0 4px 12px rgba(255, 22, 84, 0.3);
     }
 
@@ -316,26 +346,25 @@
       font-size: 1.25rem;
       margin-bottom: 0.75rem;
       color: var(--text);
-      transition: color 0.6s ease;
+      transition: color 0.35s ease;
     }
 
     .step p {
       color: var(--text-muted);
       font-size: 0.95rem;
-      transition: color 0.6s ease;
+      transition: color 0.35s ease;
     }
 
     .step.is-active .step-number {
       background: var(--white);
       color: var(--pink);
-      transform: scale(1.1);
+      transform: scale(1.12);
       box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
 
     .step.is-active h3 { color: var(--white); }
-    .step.is-active p  { color: rgba(255,255,255,0.85); }
+    .step.is-active p  { color: rgba(255, 255, 255, 0.85); }
 
-    /* Simple dot indicators — no timer ring */
     .process-progress {
       margin-top: 1.75rem;
       display: flex;
@@ -349,7 +378,7 @@
       border-radius: 50%;
       background: #E5E5E5;
       cursor: pointer;
-      transition: background 0.4s ease, transform 0.4s ease;
+      transition: background 0.3s ease, transform 0.3s ease;
     }
 
     .progress-dot.is-active {
@@ -426,7 +455,9 @@
       <div class="process">
         <h2>So einfach geht's</h2>
         <div class="process-steps-wrapper" id="processStepsWrapper">
-          <canvas id="stepCanvas"></canvas>
+          <div class="connector-track"></div>
+          <div class="connector-fill" id="connectorFill"></div>
+          <div class="step-highlight" id="stepHighlight"></div>
 
           <div class="process-steps" id="processSteps">
             <div class="step is-active" data-index="0">
@@ -478,178 +509,53 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // ── WebGL fluid highlight ─────────────────────────────────────────────────
-    const canvas  = document.getElementById('stepCanvas');
-    const stepsEl = document.querySelectorAll('.step');
-    const dots    = document.querySelectorAll('.progress-dot');
+    const stepsEl   = document.querySelectorAll('.step');
+    const highlight = document.getElementById('stepHighlight');
+    const connector = document.getElementById('connectorFill');
+    const dots      = document.querySelectorAll('.progress-dot');
 
-    const STEP_DURATION = 3200; // ms per step
-
+    const STEP_DURATION = 2500;
     let activeIndex = 0;
-    let paused      = false;
-    let stepStart   = null;
+    let autoTimer   = null;
 
-    // ── Shader sources ────────────────────────────────────────────────────────
-    const vert = `
-      attribute vec2 a_pos;
-      void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
-    `;
+    const connectorWidths = ['0%', 'calc(100% * 1 / 3)', 'calc(100% * 2 / 3)'];
 
-    // Fragment shader: draws a glowing, softly-edged blob that drifts smoothly.
-    // u_pos  : current x center of blob in normalised [0..1] canvas coords
-    // u_res  : canvas resolution
-    // u_time : elapsed seconds (for inner shimmer)
-    const frag = `
-      precision mediump float;
-      uniform vec2  u_res;
-      uniform float u_pos;   // 0..1 horizontal center
-      uniform float u_time;
-
-      void main() {
-        vec2 uv = gl_FragCoord.xy / u_res;
-
-        // Blob centre in UV space
-        float cx = u_pos;
-        float cy = 0.5;
-
-        // Aspect-correct distance — blob is wider than tall
-        float aspect = u_res.x / u_res.y;
-        float dx = (uv.x - cx) * aspect;
-        float dy = (uv.y - cy);
-
-        // Elongated blob shape
-        float d = sqrt(dx * dx * 0.38 + dy * dy * 1.6);
-
-        // Soft edge: outermost glow fades from ~0.55 to a hard interior at 0.28
-        float blob = 1.0 - smoothstep(0.28, 0.58, d);
-
-        // Inner shimmer: subtle brightness pulse that drifts across the blob
-        float shimmerX  = (uv.x - cx + 0.5) * 3.0 + u_time * 0.6;
-        float shimmer   = 0.08 * sin(shimmerX * 6.28) * (1.0 - smoothstep(0.0, 0.28, d));
-
-        float intensity = blob + shimmer;
-
-        // Pink colour: #FF1654
-        vec3 col = vec3(1.0, 0.086, 0.329);
-
-        gl_FragColor = vec4(col * intensity, intensity * 0.92);
-      }
-    `;
-
-    // ── Init WebGL ────────────────────────────────────────────────────────────
-    const gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false });
-
-    function compileShader(type, src) {
-      const s = gl.createShader(type);
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      return s;
-    }
-
-    const prog = gl.createProgram();
-    gl.attachShader(prog, compileShader(gl.VERTEX_SHADER,   vert));
-    gl.attachShader(prog, compileShader(gl.FRAGMENT_SHADER, frag));
-    gl.linkProgram(prog);
-    gl.useProgram(prog);
-
-    // Full-screen quad
-    const buf = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-    const aPos = gl.getAttribLocation(prog, 'a_pos');
-    gl.enableVertexAttribArray(aPos);
-    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
-
-    const uRes  = gl.getUniformLocation(prog, 'u_res');
-    const uPos  = gl.getUniformLocation(prog, 'u_pos');
-    const uTime = gl.getUniformLocation(prog, 'u_time');
-
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-    // ── Blob position (normalised 0..1) per step ──────────────────────────────
-    // Steps are at x = 1/6, 3/6, 5/6 of the canvas width
-    const stepPositions = [1/6, 3/6, 5/6];
-
-    // Smoothly interpolated blob x (lerped each frame)
-    let blobX    = stepPositions[0];
-    let targetX  = stepPositions[0];
-
-    function resizeCanvas() {
-      const w = canvas.offsetWidth;
-      const h = canvas.offsetHeight;
-      if (canvas.width !== w || canvas.height !== h) {
-        canvas.width  = w;
-        canvas.height = h;
-        gl.viewport(0, 0, w, h);
-      }
-    }
-
-    // ── Step activation ───────────────────────────────────────────────────────
     function activateStep(index) {
       stepsEl.forEach((s, i) => s.classList.toggle('is-active', i === index));
       dots.forEach((d, i)    => d.classList.toggle('is-active', i === index));
-      targetX     = stepPositions[index];
+      highlight.style.transform = `translateX(${index * 100}%)`;
+      connector.style.width     = connectorWidths[index];
       activeIndex = index;
-      stepStart   = null;
     }
 
-    // ── RAF loop ──────────────────────────────────────────────────────────────
-    let startTime = null;
-
-    function frame(ts) {
-      if (!startTime) startTime = ts;
-      const elapsed = (ts - startTime) / 1000; // seconds
-
-      // Auto-advance
-      if (!paused) {
-        if (!stepStart) stepStart = ts;
-        if (ts - stepStart >= STEP_DURATION) {
-          activateStep((activeIndex + 1) % stepsEl.length);
-          stepStart = ts;
-        }
-      }
-
-      // Drift blob toward target — exponential ease
-      blobX += (targetX - blobX) * 0.055;
-
-      resizeCanvas();
-      gl.clearColor(0, 0, 0, 0);
-      gl.clear(gl.COLOR_BUFFER_BIT);
-      gl.uniform2f(uRes,  canvas.width, canvas.height);
-      gl.uniform1f(uPos,  blobX);
-      gl.uniform1f(uTime, elapsed);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-      requestAnimationFrame(frame);
+    function startAutoplay() {
+      autoTimer = setInterval(() => {
+        activateStep((activeIndex + 1) % stepsEl.length);
+      }, STEP_DURATION);
     }
 
-    requestAnimationFrame(frame);
-
-    // ── Interactions ──────────────────────────────────────────────────────────
     stepsEl.forEach(step => {
       step.addEventListener('click', () => {
+        clearInterval(autoTimer);
         activateStep(parseInt(step.dataset.index));
+        startAutoplay();
       });
     });
 
     dots.forEach(dot => {
       dot.addEventListener('click', () => {
+        clearInterval(autoTimer);
         activateStep(parseInt(dot.dataset.index));
+        startAutoplay();
       });
     });
 
     const processEl = document.querySelector('.process');
-    processEl.addEventListener('mouseenter', () => { paused = true; });
-    processEl.addEventListener('mouseleave', () => {
-      paused    = false;
-      stepStart = null;
-    });
+    processEl.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    processEl.addEventListener('mouseleave', () => startAutoplay());
 
-    // Fallback: if WebGL isn't available, restore CSS highlight
-    if (!gl) {
-      canvas.style.display = 'none';
-    }
+    activateStep(0);
+    startAutoplay();
   </script>
 
 </body>
