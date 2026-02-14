@@ -150,49 +150,218 @@
     footer a:hover { text-decoration: underline; }
     .emoji { font-style: normal; margin-left: 0.3rem; }
 
+    /* ── PROCESS ── */
     .process { background: var(--white); border-radius: 1.5rem; padding: 3rem; margin-bottom: 3rem; }
-    .process-steps-wrapper { position: relative; margin-top: 2rem; }
-    .connector-track, .connector-fill { display: none; }
-    @media (min-width: 768px) {
-      .connector-track, .connector-fill {
-        display: block; position: absolute; top: 70px; height: 2px;
-        pointer-events: none; left: calc(100% / 6); width: calc(100% * 2 / 3);
-      }
-      .connector-track { background: #E5E5E5; z-index: 0; }
-      .connector-fill  { background: var(--pink); z-index: 1; width: 0%; transition: width 0.55s cubic-bezier(0.65,0,0.35,1); }
+
+    /* Tab bar */
+    .step-tabs {
+      display: flex; align-items: center; gap: 0;
+      margin: 2rem 0 0; background: #F4F4F4; border-radius: 100px;
+      padding: 6px;
     }
-    .step-highlight { display: none; }
-    @media (min-width: 768px) {
-      .step-highlight {
-        display: block; position: absolute; top: 0; left: 0;
-        width: 33.333%; height: 100%;
-        background: linear-gradient(135deg, #FF1654 0%, #FF4A7A 100%);
-        border-radius: 1rem; transition: transform 0.55s cubic-bezier(0.65,0,0.35,1);
-        z-index: 0; box-shadow: 0 8px 32px rgba(255,22,84,0.3); pointer-events: none;
-      }
+    .step-tab {
+      flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.65rem 1rem; border-radius: 100px; border: none; background: none;
+      cursor: pointer; font-family: inherit; font-size: 0.9rem; font-weight: 600;
+      color: var(--text-muted); transition: all 0.3s ease; white-space: nowrap;
     }
-    .process-steps { display: grid; gap: 0; position: relative; z-index: 1; }
-    @media (min-width: 768px) { .process-steps { grid-template-columns: repeat(3, 1fr); } }
-    .step { text-align: center; padding: 2.5rem 1.5rem 2rem; border-radius: 1rem; cursor: pointer; position: relative; z-index: 1; }
-    @media (max-width: 767px) {
-      .step { border-bottom: 1px solid #F0F0F0; }
-      .step:last-child { border-bottom: none; }
-      .step.is-active { background: linear-gradient(135deg, #FF1654 0%, #FF4A7A 100%); border-radius: 0.75rem; box-shadow: 0 8px 32px rgba(255,22,84,0.3); border-bottom: none; }
-    }
-    .step-number {
+    .step-tab.is-active { background: var(--white); color: var(--pink); box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+    .tab-num {
       display: inline-flex; align-items: center; justify-content: center;
-      width: 60px; height: 60px; background: var(--pink); color: var(--white);
-      border-radius: 50%; font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem;
-      position: relative; z-index: 2;
-      transition: background 0.35s ease, color 0.35s ease,
-                  transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
-      box-shadow: 0 4px 12px rgba(255,22,84,0.3);
+      width: 24px; height: 24px; border-radius: 50%;
+      background: #E0E0E0; color: var(--text-muted);
+      font-size: 0.78rem; font-weight: 700; flex-shrink: 0;
+      transition: background 0.3s, color 0.3s;
     }
-    .step h3 { font-size: 1.25rem; margin-bottom: 0.75rem; color: var(--text); transition: color 0.35s ease; }
-    .step p   { color: var(--text-muted); font-size: 0.95rem; transition: color 0.35s ease; }
-    .step.is-active .step-number { background: var(--white); color: var(--pink); transform: scale(1.12); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
-    .step.is-active h3 { color: var(--white); }
-    .step.is-active p  { color: rgba(255,255,255,0.85); }
+    .step-tab.is-active .tab-num { background: var(--pink); color: var(--white); }
+    .tab-connector { flex: 0 0 1px; height: 16px; background: #D8D8D8; margin: 0 2px; }
+    @media (max-width: 560px) {
+      .tab-label { display: none; }
+      .step-tab { padding: 0.65rem; }
+    }
+
+    /* Panels */
+    .step-panels { margin-top: 0; }
+    .step-panel {
+      display: none; padding: 2rem 0 0;
+      animation: panelIn 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+    .step-panel.is-active { display: flex; gap: 2.5rem; align-items: center; flex-wrap: wrap; }
+    @keyframes panelIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: none; } }
+
+    .panel-illustration {
+      flex: 0 0 340px; max-width: 100%;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 240px; position: relative;
+    }
+    .panel-text { flex: 1; min-width: 200px; }
+    .panel-text p { font-size: 1.05rem; color: var(--text-muted); line-height: 1.75; }
+
+    /* ── Email illustration ── */
+    .email-window {
+      width: 300px; background: var(--white);
+      border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      border: 1px solid #E8E8E8; overflow: hidden; font-size: 0.82rem;
+    }
+    .email-titlebar {
+      background: #F5F5F5; border-bottom: 1px solid #E8E8E8;
+      padding: 8px 12px; display: flex; align-items: center; gap: 5px;
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.red    { background: #FF5F57; }
+    .dot.yellow { background: #FEBC2E; }
+    .dot.green  { background: #28C840; }
+    .email-title { margin-left: 6px; font-size: 0.78rem; color: #888; font-weight: 500; }
+    .email-to { padding: 8px 12px; color: #555; border-bottom: 1px solid #F0F0F0; }
+    .field-label { font-weight: 600; color: #999; }
+    .field-val { color: var(--pink); }
+    .email-divider { height: 1px; background: #F0F0F0; }
+    .email-body-area {
+      padding: 12px; min-height: 100px; color: var(--text);
+      line-height: 1.6; font-size: 0.82rem;
+    }
+    .cursor { color: var(--pink); font-weight: 300; }
+    .cursor.blink { animation: blink 0.9s step-end infinite; }
+    @keyframes blink { 50% { opacity:0; } }
+    .email-footer { padding: 8px 12px; border-top: 1px solid #F0F0F0; text-align: right; }
+    .send-btn {
+      background: var(--pink); color: var(--white); border: none;
+      border-radius: 6px; padding: 6px 14px; font-size: 0.82rem;
+      font-weight: 600; cursor: pointer; font-family: inherit;
+      transition: all 0.2s; opacity: 0.35;
+    }
+    .send-btn.ready { opacity: 1; }
+    .send-btn.sending { transform: translateX(60px) scale(0.8); opacity: 0; transition: all 0.5s cubic-bezier(0.55,0,1,0.45); }
+    .sent-toast {
+      position: absolute; bottom: -12px; left: 50%; transform: translateX(-50%) translateY(10px);
+      background: #1A1A1A; color: var(--white); padding: 8px 18px;
+      border-radius: 100px; font-size: 0.82rem; font-weight: 600;
+      opacity: 0; pointer-events: none; white-space: nowrap;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .sent-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Matching illustration ── */
+    .match-arena {
+      position: relative; width: 300px;
+    }
+    .match-list {
+      display: flex; flex-direction: column; gap: 10px;
+      width: 100%;
+    }
+    .match-row {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--white); border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 2px solid transparent;
+      opacity: 0; transform: translateX(-10px);
+      transition: opacity 0.32s ease, transform 0.32s cubic-bezier(0.34,1.2,0.64,1),
+                  border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .match-row.visible { opacity: 1; transform: translateX(0); }
+    .match-row.scanning { background: rgba(255,22,84,0.04); }
+    .match-row.chosen {
+      border-color: var(--pink);
+      box-shadow: 0 4px 20px rgba(255,22,84,0.18);
+    }
+    .match-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #F0F0F0; display: flex; align-items: center;
+      justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+    }
+    .match-info { flex: 1; min-width: 0; }
+    .match-name    { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .match-subject { font-size: 0.75rem; color: var(--text-muted); margin-top: 1px; }
+    .match-tag {
+      font-size: 0.68rem; font-weight: 600;
+      background: #F5F5F5; color: var(--text-muted);
+      padding: 3px 8px; border-radius: 100px; white-space: nowrap;
+    }
+    .match-checkmark {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--pink); color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 700; flex-shrink: 0;
+      opacity: 0; transform: scale(0);
+      transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .match-checkmark.visible { opacity: 1; transform: scale(1); }
+
+    /* magnifier */
+    .magnifier {
+      position: absolute;
+      width: 44px; height: 44px;
+      pointer-events: none; z-index: 10;
+      opacity: 0;
+      transition: top 0.55s cubic-bezier(0.65,0,0.35,1), opacity 0.25s ease;
+      /* position it to the right of the list */
+      right: -22px;
+    }
+    .magnifier.visible { opacity: 1; }
+    .magnifier svg { width: 44px; height: 44px; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15)); }
+
+    /* ── Video call illustration (clean) ── */
+    .vc-wrap { position: relative; width: 300px; }
+    .video-call {
+      width: 300px; background: #13131f; border-radius: 14px; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .vc-topbar {
+      background: #0d0d18; padding: 9px 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .vc-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .vc-dot.red    { background: #FF5F57; }
+    .vc-dot.yellow { background: #FEBC2E; }
+    .vc-dot.green  { background: #28C840; }
+    .vc-title { margin-left: 4px; color: rgba(255,255,255,0.3); font-size: 0.7rem; flex: 1; }
+    .vc-live-pill {
+      display: flex; align-items: center; gap: 4px;
+      background: rgba(255,22,84,0.15); border: 1px solid rgba(255,22,84,0.3);
+      border-radius: 100px; padding: 2px 7px;
+      font-size: 0.6rem; font-weight: 700; color: #FF4A7A; letter-spacing: 0.05em;
+    }
+    .vc-live-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: #FF1654;
+      animation: vcLivePulse 1.4s ease-in-out infinite;
+    }
+    @keyframes vcLivePulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+    .vc-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3px;
+      padding: 3px 3px 3px; background: #0d0d18;
+    }
+    .vc-tile {
+      position: relative; border-radius: 8px; overflow: hidden;
+      background: #1e1e30; aspect-ratio: 4/3;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: box-shadow 0.5s ease;
+    }
+    .vc-tile.speaking { box-shadow: inset 0 0 0 2px rgba(255,22,84,0.7); }
+    .vc-tile::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .vc-portrait { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; }
+    .vc-name-tag {
+      position: absolute; bottom: 7px; left: 8px; z-index: 2;
+      color: rgba(255,255,255,0.85); font-size: 0.62rem; font-weight: 600;
+    }
+    /* controls row */
+    .vc-controls {
+      background: #0d0d18; padding: 9px 14px;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .vc-btn {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: rgba(255,255,255,0.07);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vc-btn.end { background: #c0392b; width: 40px; border-radius: 100px; }
+    .vc-btn svg { width: 13px; height: 13px; fill: none; stroke: rgba(255,255,255,0.65); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .vc-btn.end svg { stroke: white; }
+
     .process-progress { margin-top: 1.75rem; display: flex; gap: 0.5rem; justify-content: center; }
     .progress-dot { width: 8px; height: 8px; border-radius: 50%; background: #E5E5E5; cursor: pointer; transition: background 0.3s ease, transform 0.3s ease; }
     .progress-dot.is-active { background: var(--pink); transform: scale(1.4); }
@@ -352,28 +521,162 @@
   <div class="container">
     <div class="process">
       <h2>So einfach geht's</h2>
-      <div class="process-steps-wrapper" id="processStepsWrapper">
-        <div class="connector-track"></div>
-        <div class="connector-fill" id="connectorFill"></div>
-        <div class="step-highlight" id="stepHighlight"></div>
-        <div class="process-steps" id="processSteps">
-          <div class="step is-active" data-index="0">
-            <div class="step-number">1</div>
-            <h3>Kontakt aufnehmen</h3>
-            <p>Schreib uns eine kurze Nachricht mit Fach, Klassenstufe und deinen Wünschen. Das wars!</p>
+
+      <!-- Tab bar -->
+      <div class="step-tabs" id="stepTabs">
+        <button class="step-tab is-active" data-index="0">
+          <span class="tab-num">1</span>
+          <span class="tab-label">Kontakt aufnehmen</span>
+        </button>
+        <div class="tab-connector"><div class="tab-connector-fill" id="tabFill0"></div></div>
+        <button class="step-tab" data-index="1">
+          <span class="tab-num">2</span>
+          <span class="tab-label">Matching</span>
+        </button>
+        <div class="tab-connector"><div class="tab-connector-fill" id="tabFill1"></div></div>
+        <button class="step-tab" data-index="2">
+          <span class="tab-num">3</span>
+          <span class="tab-label">Loslegen</span>
+        </button>
+      </div>
+
+      <!-- Step panels -->
+      <div class="step-panels">
+
+        <!-- ── PANEL 0: Email composer ── -->
+        <div class="step-panel is-active" data-panel="0">
+          <div class="panel-illustration" id="emailIllustration">
+            <div class="email-window">
+              <div class="email-titlebar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="email-title">Neue Nachricht</span>
+              </div>
+              <div class="email-to"><span class="field-label">An:</span> <span class="field-val">info@mamkas.com</span></div>
+              <div class="email-divider"></div>
+              <div class="email-body-area">
+                <span id="emailTyped"></span><span class="cursor blink">|</span>
+              </div>
+              <div class="email-footer">
+                <button class="send-btn" id="sendBtn">Senden ✈</button>
+              </div>
+            </div>
+            <div class="sent-toast" id="sentToast">✓ Nachricht gesendet!</div>
           </div>
-          <div class="step" data-index="1">
-            <div class="step-number">2</div>
-            <h3>Matching</h3>
-            <p>Wir suchen dir den passenden Tutor aus unserem Team.</p>
-          </div>
-          <div class="step" data-index="2">
-            <div class="step-number">3</div>
-            <h3>Loslegen</h3>
-            <p>Erste Session vereinbaren und gemeinsam durchstarten!</p>
+          <div class="panel-text">
+            <p>Schreib uns einfach eine kurze E-Mail mit deinem Fach, Klassenstufe und Wünschen. Das wars – wir melden uns!</p>
           </div>
         </div>
-      </div>
+
+        <!-- ── PANEL 1: Matching ── -->
+        <div class="step-panel" data-panel="1">
+          <div class="panel-illustration" id="matchIllustration">
+            <div class="match-arena" id="matchArena">
+              <div class="match-list" id="matchList">
+                <div class="match-row" id="tc1">
+                  <div class="match-avatar">👩‍💻</div>
+                  <div class="match-info">
+                    <div class="match-name">Lisa</div>
+                    <div class="match-subject">Mathematik · TU Berlin</div>
+                  </div>
+                  <span class="match-tag">Analysis</span>
+                  <div class="match-checkmark" id="chk1">✓</div>
+                </div>
+                <div class="match-row" id="tc2">
+                  <div class="match-avatar">👨‍🔬</div>
+                  <div class="match-info">
+                    <div class="match-name">Max</div>
+                    <div class="match-subject">Physik · TU Berlin</div>
+                  </div>
+                  <span class="match-tag">Mechanik</span>
+                  <div class="match-checkmark" id="chk2">✓</div>
+                </div>
+                <div class="match-row" id="tc3">
+                  <div class="match-avatar">👩‍🎨</div>
+                  <div class="match-info">
+                    <div class="match-name">Sara</div>
+                    <div class="match-subject">Deutsch · TU Berlin</div>
+                  </div>
+                  <span class="match-tag">Aufsatz</span>
+                  <div class="match-checkmark" id="chk3">✓</div>
+                </div>
+              </div>
+              <!-- magnifier floats over the list -->
+              <div class="magnifier" id="magnifier">
+                <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="18" cy="18" r="13" fill="rgba(255,255,255,0.92)" stroke="#FF1654" stroke-width="3"/>
+                  <circle cx="18" cy="18" r="13" fill="rgba(255,22,84,0.07)"/>
+                  <line x1="27" y1="27" x2="38" y2="38" stroke="#FF1654" stroke-width="3.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="panel-text">
+            <p>Wir suchen den passenden Tutor aus unserem Team – abgestimmt auf dein Fach, dein Tempo und deine Persönlichkeit.</p>
+          </div>
+        </div>
+
+        <!-- ── PANEL 2: Session ── -->
+        <div class="step-panel" data-panel="2">
+          <div class="panel-illustration" id="sessionIllustration">
+            <div class="vc-wrap">
+              <div class="video-call">
+                <div class="vc-topbar">
+                  <span class="vc-dot red"></span>
+                  <span class="vc-dot yellow"></span>
+                  <span class="vc-dot green"></span>
+                  <span class="vc-title">mamkas · Session</span>
+                  <span class="vc-live-pill"><span class="vc-live-dot"></span>LIVE</span>
+                </div>
+                <div class="vc-grid">
+                  <div class="vc-tile speaking" id="vcTileTutor">
+                    <svg class="vc-portrait" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="46" height="46" fill="#2d2b55"/>
+                      <circle cx="23" cy="18" r="9" fill="#c4b5fd"/>
+                      <ellipse cx="23" cy="38" rx="13" ry="9" fill="#c4b5fd"/>
+                      <circle cx="23" cy="18" r="6" fill="#ede9fe"/>
+                      <ellipse cx="20.5" cy="17.5" rx="1.3" ry="1.8" fill="#4c1d95"/>
+                      <ellipse cx="25.5" cy="17.5" rx="1.3" ry="1.8" fill="#4c1d95"/>
+                      <path d="M20.5 21 Q23 23 25.5 21" stroke="#4c1d95" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <div class="vc-name-tag">Lisa (Tutor)</div>
+                  </div>
+                  <div class="vc-tile" id="vcTileStudent">
+                    <svg class="vc-portrait" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg">
+                      <rect width="46" height="46" fill="#1a2e1a"/>
+                      <circle cx="23" cy="18" r="9" fill="#6ee7b7"/>
+                      <ellipse cx="23" cy="38" rx="13" ry="9" fill="#6ee7b7"/>
+                      <circle cx="23" cy="18" r="6" fill="#ecfdf5"/>
+                      <ellipse cx="20.5" cy="17.5" rx="1.3" ry="1.8" fill="#065f46"/>
+                      <ellipse cx="25.5" cy="17.5" rx="1.3" ry="1.8" fill="#065f46"/>
+                      <path d="M20.5 21 Q23 22.5 25.5 21" stroke="#065f46" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+                    </svg>
+                    <div class="vc-name-tag">Du</div>
+                  </div>
+                </div>
+                <div class="vc-controls">
+                  <div class="vc-btn">
+                    <svg viewBox="0 0 16 16"><path d="M8 1a3 3 0 0 1 3 3v4a3 3 0 0 1-6 0V4a3 3 0 0 1 3-3z"/><path d="M4 8a4 4 0 0 0 8 0M8 12v2"/></svg>
+                  </div>
+                  <div class="vc-btn">
+                    <svg viewBox="0 0 16 16"><path d="M1 4h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M11 6l4-2v6l-4-2"/></svg>
+                  </div>
+                  <div class="vc-btn end">
+                    <svg viewBox="0 0 16 16"><path d="M2 9c0-3.9 3.1-7 7-7s7 3.1 7 7" fill="none" stroke-width="2"/><line x1="4" y1="7" x2="12" y2="15" stroke-width="2" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="vc-btn">
+                    <svg viewBox="0 0 16 16"><rect x="1" y="1" width="14" height="11" rx="2"/><path d="M5 15h6M8 12v3"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-text">
+            <p>Erste Session vereinbaren und direkt loslegen – online, entspannt und auf dich zugeschnitten.</p>
+          </div>
+        </div>
+
+      </div><!-- /.step-panels -->
+
       <div class="process-progress" id="processDots">
         <div class="progress-dot is-active" data-index="0"></div>
         <div class="progress-dot" data-index="1"></div>
@@ -501,7 +804,7 @@
 
       <div class="price-card">
         <div class="price-label">Einzel</div>
-        <div class="price-amount">18–22<span> €/h</span></div>
+        <div class="price-amount">15–20<span> €/h</span></div>
         <p class="price-note">1 Schüler:in, 1 Tutor</p>
         <hr class="price-divider">
         <ul class="price-features">
@@ -514,7 +817,7 @@
       <div class="price-card featured">
         <div class="price-badge">Beliebt</div>
         <div class="price-label">Duo</div>
-        <div class="price-amount">12–15<span> €/h</span></div>
+        <div class="price-amount">10–13<span> €/h</span></div>
         <p class="price-note">2 Schüler:innen teilen sich einen Tutor</p>
         <hr class="price-divider">
         <ul class="price-features">
@@ -527,12 +830,12 @@
       <div class="price-card">
         <div class="price-label">Erstgespräch</div>
         <div class="price-amount">Gratis</div>
-        <p class="price-note">Kurzes Kennenlerngespräch, kein Risiko</p>
+        <p class="price-note">Kurze Kennenlern-Session, kein Risiko</p>
         <hr class="price-divider">
         <ul class="price-features">
           <li>Tutor kennenlernen</li>
-          <li>Wünsche mitteilen</li>
-          <li>Unverbindlich</li>
+          <li>Ziele besprechen</li>
+          <li>Kein Commitment nötig</li>
         </ul>
       </div>
 
@@ -666,29 +969,203 @@
   <div class="container">© <span id="year"></span> mamkas · Alle Rechte vorbehalten</div>
 </footer>
 
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-  const stepsEl   = document.querySelectorAll('.step');
-  const highlight = document.getElementById('stepHighlight');
-  const connector = document.getElementById('connectorFill');
-  const dots      = document.querySelectorAll('.progress-dot');
-  const STEP_DURATION = 2500;
-  let activeIndex = 0, autoTimer = null;
-  const connectorWidths = ['0%','calc(100% * 1 / 3)','calc(100% * 2 / 3)'];
-  function activateStep(i) {
-    stepsEl.forEach((s,j) => s.classList.toggle('is-active', j===i));
-    dots.forEach((d,j)    => d.classList.toggle('is-active', j===i));
-    highlight.style.transform = `translateX(${i*100}%)`;
-    connector.style.width     = connectorWidths[i];
+
+  // ── Tab / panel switching ──────────────────────────────────────
+  const tabs   = document.querySelectorAll('.step-tab');
+  const panels = document.querySelectorAll('.step-panel');
+  const dots   = document.querySelectorAll('.progress-dot');
+  let activeIndex = 0;
+  let autoTimer   = null;   // timeout (not interval) – fires after each anim completes
+  let animCleanup = {};
+  let userPaused  = false;  // pause autoplay on hover/manual click
+
+  function activateStep(i, fromAuto) {
+    tabs.forEach((t,j)   => t.classList.toggle('is-active', j===i));
+    panels.forEach((p,j) => p.classList.toggle('is-active', j===i));
+    dots.forEach((d,j)   => d.classList.toggle('is-active', j===i));
     activeIndex = i;
+    // stop previous animation
+    Object.values(animCleanup).forEach(fn => fn && fn());
+    animCleanup = {};
+    clearTimeout(autoTimer);
+
+    // callback: called when the animation finishes → advance to next tab
+    function onDone() {
+      if (userPaused) return;
+      autoTimer = setTimeout(() => {
+        if (!userPaused) activateStep((activeIndex + 1) % 3, true);
+      }, 600); // short pause after done before switching
+    }
+
+    if (i === 0) playEmail(onDone);
+    if (i === 1) playMatch(onDone);
+    if (i === 2) playSession(onDone);
   }
-  function startAutoplay() { autoTimer = setInterval(() => activateStep((activeIndex+1)%stepsEl.length), STEP_DURATION); }
-  stepsEl.forEach(s => s.addEventListener('click', () => { clearInterval(autoTimer); activateStep(+s.dataset.index); startAutoplay(); }));
-  dots.forEach(d   => d.addEventListener('click', () => { clearInterval(autoTimer); activateStep(+d.dataset.index); startAutoplay(); }));
-  document.querySelector('.process').addEventListener('mouseenter', () => clearInterval(autoTimer));
-  document.querySelector('.process').addEventListener('mouseleave', () => startAutoplay());
-  activateStep(0);
-  startAutoplay();
+
+  // manual tab / dot clicks
+  tabs.forEach(t => t.addEventListener('click', () => {
+    userPaused = false;
+    activateStep(+t.dataset.index, false);
+  }));
+  dots.forEach(d => d.addEventListener('click', () => {
+    userPaused = false;
+    activateStep(+d.dataset.index, false);
+  }));
+
+  // hover pauses / resumes
+  document.querySelector('.process').addEventListener('mouseenter', () => {
+    userPaused = true;
+    clearTimeout(autoTimer);
+  });
+  document.querySelector('.process').addEventListener('mouseleave', () => {
+    userPaused = false;
+    // resume from current step's natural end — just restart current anim
+    activateStep(activeIndex, true);
+  });
+
+  // ── PANEL 0: Email typing animation ───────────────────────────
+  function playEmail(onDone) {
+    const el    = document.getElementById('emailTyped');
+    const btn   = document.getElementById('sendBtn');
+    const toast = document.getElementById('sentToast');
+    const msg   = 'Hi,\nich bin Max, 10. Klasse.\nIch brauche Hilfe in\nMathe (Analysis).\nDi/Do abends passt gut. :)';
+    el.textContent = '';
+    btn.classList.remove('ready','sending');
+    toast.classList.remove('visible');
+    let i = 0, timers = [];
+
+    function type() {
+      if (i < msg.length) {
+        el.textContent += msg[i] === '\n' ? '\n' : msg[i];
+        i++;
+        timers.push(setTimeout(type, 44 + Math.random() * 24));
+      } else {
+        btn.classList.add('ready');
+        timers.push(setTimeout(() => {
+          btn.classList.add('sending');
+          timers.push(setTimeout(() => {
+            toast.classList.add('visible');
+            timers.push(setTimeout(onDone, 900)); // done: toast shown
+          }, 480));
+        }, 650));
+      }
+    }
+    timers.push(setTimeout(type, 350));
+    animCleanup[0] = () => timers.forEach(clearTimeout);
+  }
+
+  // ── PANEL 1: Matching animation w/ magnifier ──────────────────
+  function playMatch(onDone) {
+    const rows = [
+      document.getElementById('tc1'),
+      document.getElementById('tc2'),
+      document.getElementById('tc3'),
+    ];
+    const chks = [
+      document.getElementById('chk1'),
+      document.getElementById('chk2'),
+      document.getElementById('chk3'),
+    ];
+    const mag  = document.getElementById('magnifier');
+
+    // reset
+    rows.forEach(r => { if(r) r.classList.remove('visible','chosen','scanning'); });
+    chks.forEach(c => { if(c) c.classList.remove('visible'); });
+    if (mag) { mag.classList.remove('visible'); mag.style.top = '0px'; }
+
+    let timers = [];
+
+    // 1. rows slide in
+    rows.forEach((r, i) => {
+      timers.push(setTimeout(() => { if(r) r.classList.add('visible'); }, 150 + i * 260));
+    });
+
+    // 2. after all rows visible, start magnifier scan
+    timers.push(setTimeout(() => {
+      if (!mag) return;
+      mag.classList.add('visible');
+
+      // compute vertical center of each row relative to arena
+      function rowCenter(el) {
+        const arena = document.getElementById('matchArena');
+        const arRect = arena.getBoundingClientRect();
+        const rRect  = el.getBoundingClientRect();
+        return (rRect.top - arRect.top) + rRect.height / 2 - 22; // 22 = half magnifier
+      }
+
+      // scan: row0 → row1 → row2 → back to row0 (chosen)
+      const schedule = [
+        { idx: 0, delay: 0,    dwell: 550 },
+        { idx: 1, delay: 550,  dwell: 550 },
+        { idx: 2, delay: 1100, dwell: 550 },
+        { idx: 0, delay: 1650, dwell: 0,  chosen: true },
+      ];
+
+      schedule.forEach(({ idx, delay, dwell, chosen }) => {
+        timers.push(setTimeout(() => {
+          // move magnifier to row
+          const top = rowCenter(rows[idx]);
+          mag.style.top = top + 'px';
+          // scanning highlight
+          rows.forEach(r => r.classList.remove('scanning'));
+          if (!chosen) rows[idx].classList.add('scanning');
+
+          if (chosen) {
+            rows[idx].classList.add('chosen');
+            // small delay then show checkmark, hide magnifier, call onDone
+            timers.push(setTimeout(() => {
+              mag.classList.remove('visible');
+              rows[idx].classList.remove('scanning');
+            }, 200));
+            timers.push(setTimeout(() => {
+              chks[idx].classList.add('visible');
+              timers.push(setTimeout(onDone, 800));
+            }, 350));
+          }
+        }, delay));
+      });
+
+    }, 150 + 3 * 260 + 100)); // after all rows are in
+
+    animCleanup[1] = () => {
+      timers.forEach(clearTimeout);
+      if (mag) mag.classList.remove('visible');
+      rows.forEach(r => { if(r) r.classList.remove('scanning'); });
+    };
+  }
+
+  // ── PANEL 2: Session animation ────────────────────────────────
+  function playSession(onDone) {
+    const tileTutor   = document.getElementById('vcTileTutor');
+    const tileStudent = document.getElementById('vcTileStudent');
+    if (tileTutor)   tileTutor.classList.add('speaking');
+    if (tileStudent) tileStudent.classList.remove('speaking');
+    let speaker = true;
+    let count   = 0;
+    const totalSwitches = 4; // run 4 speaker switches then done
+
+    const interval = setInterval(() => {
+      speaker = !speaker;
+      count++;
+      if (tileTutor)   tileTutor.classList.toggle('speaking', speaker);
+      if (tileStudent) tileStudent.classList.toggle('speaking', !speaker);
+      if (count >= totalSwitches) {
+        clearInterval(interval);
+        setTimeout(onDone, 600);
+      }
+    }, 2000);
+
+    animCleanup[2] = () => {
+      clearInterval(interval);
+      if (tileTutor)   tileTutor.classList.remove('speaking');
+      if (tileStudent) tileStudent.classList.remove('speaking');
+    };
+  }
+
+  activateStep(0, true);
 </script>
 </body>
 </html>
