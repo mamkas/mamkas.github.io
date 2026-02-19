@@ -50,7 +50,7 @@
 
     footer { text-align: center; padding: 2.5rem 1.5rem; color: var(--text-muted); font-size: 0.88rem; border-top: 1px solid #E5E5E5; margin-top: 3rem; }
 
-    /* Process – premium stacked steps */
+    /* Process */
     .process {
       background: var(--white);
       border-radius: 1.75rem;
@@ -77,7 +77,6 @@
     }
     .step-card:last-child { border-bottom: none; }
 
-    /* left accent strip */
     .step-card::before {
       content: '';
       position: absolute;
@@ -91,7 +90,6 @@
       z-index: 2;
     }
     .step-card.is-active::before { opacity: 1; transform: scaleY(1); }
-
     .step-card.is-active { background: #FAFAFA; }
     .step-card.is-inactive { background: var(--white); }
     .step-card.is-inactive .step-text,
@@ -99,7 +97,6 @@
     .step-card.is-active .step-text,
     .step-card.is-active .step-illustration { opacity: 1; filter: none; transition: opacity 0.35s; }
 
-    /* left column with number */
     .step-left {
       flex-shrink: 0;
       display: flex;
@@ -159,9 +156,6 @@
     }
     .step-card.is-active .step-ring { opacity: 1; }
 
-    /* dummy */
-    .step-progress-bar { display: none; }
-
     /* Email */
     .email-window { width: 270px; background: var(--white); border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); border: 1px solid #E8E8E8; overflow: hidden; font-size: 0.78rem; }
     .email-titlebar { background: #F5F5F5; border-bottom: 1px solid #E8E8E8; padding: 7px 11px; display: flex; align-items: center; gap: 4px; }
@@ -219,11 +213,6 @@
     .vc-btn.end { background: #c0392b; width: 36px; border-radius: 100px; }
     .vc-btn svg { width: 11px; height: 11px; fill: none; stroke: rgba(255,255,255,0.65); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
     .vc-btn.end svg { stroke: white; }
-
-    /* Join */
-    .join-pill { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 100px; padding: 0.32rem 0.85rem; margin-bottom: 1.1rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; color: rgba(255,255,255,0.9); text-transform: uppercase; }
-    .join-features { display: flex; flex-wrap: wrap; gap: 0.55rem; justify-content: center; margin-bottom: 1.75rem; }
-    .join-feat { display: flex; align-items: center; gap: 0.4rem; background: rgba(255,255,255,0.13); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; padding: 0.4rem 0.9rem; color: var(--white); font-size: 0.82rem; font-weight: 500; }
   </style>
 </head>
 <body>
@@ -268,7 +257,6 @@
 
         <!-- Step 1 -->
         <div class="step-card is-active" data-index="0">
-          <div class="step-progress-bar" id="progressBar0"></div>
           <div class="step-left">
             <div class="step-num">1
               <div class="step-ring" id="ring0">
@@ -284,7 +272,7 @@
             <div class="step-illustration" id="emailIllustration">
               <div class="email-window">
                 <div class="email-titlebar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span><span class="email-title">Neue Nachricht</span></div>
-                <div class="email-to"><span class="field-label">An:</span> <span class="field-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="99f0f7fff6d9f4f8f4f2f8eab7faf6f4">[email&#160;protected]</a></span></div>
+                <div class="email-to"><span class="field-label">An:</span> <span class="field-val">info@mamkas.com</span></div>
                 <div class="email-body-area"><span id="emailTyped"></span><span class="cursor blink">|</span></div>
                 <div class="email-footer"><button class="send-btn" id="sendBtn">Senden ✈</button></div>
               </div>
@@ -295,7 +283,6 @@
 
         <!-- Step 2 -->
         <div class="step-card is-inactive" data-index="1">
-          <div class="step-progress-bar" id="progressBar1"></div>
           <div class="step-left">
             <div class="step-num">2
               <div class="step-ring" id="ring1">
@@ -323,7 +310,6 @@
 
         <!-- Step 3 -->
         <div class="step-card is-inactive" data-index="2">
-          <div class="step-progress-bar" id="progressBar2"></div>
           <div class="step-left">
             <div class="step-num">3
               <div class="step-ring" id="ring2">
@@ -411,7 +397,7 @@
   <div class="container" style="text-align:center;">
     <h2>Bereit loszulegen?</h2>
     <p style="max-width:480px;margin:0 auto 2rem;font-size:0.98rem;color:var(--text-muted);">Schreib uns – wir finden schnell den passenden Tutor für dich.</p>
-    <a class="button" href="/cdn-cgi/l/email-protection#93fafdf5fcd3fef2fef8f2e0bdf0fcfe" style="font-size:1.1rem;"><span class="__cf_email__" data-cfemail="dcb5b2bab39cb1bdb1b7bdaff2bfb3b1">[email&#160;protected]</span></a>
+    <a class="button" href="mailto:info@mamkas.com" style="font-size:1.1rem;">info@mamkas.com</a>
   </div>
 </section>
 
@@ -430,21 +416,18 @@
       position: relative;
       overflow: hidden;
     ">
-      <!-- decorative glow -->
       <div style="position:absolute;right:-60px;top:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,22,84,0.18) 0%,transparent 70%);pointer-events:none;"></div>
       <div style="position:absolute;left:30%;bottom:-80px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,22,84,0.08) 0%,transparent 70%);pointer-events:none;"></div>
 
-      <!-- left: text -->
       <div style="position:relative;z-index:1;flex:1;min-width:220px;">
         <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--pink);margin-bottom:0.65rem;">Für Studierende</p>
         <h3 style="font-size:clamp(1.3rem,2.5vw,1.7rem);font-weight:800;color:#fff;line-height:1.2;margin-bottom:0.7rem;letter-spacing:-0.01em;">Du studierst?<br>Werde Tutor!</h3>
         <p style="font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.65;max-width:340px;">
           Gib dein Wissen weiter, verdiene nebenbei Geld – flexibel, online, wann du willst. Meld dich bei uns:
-          <a href="/cdn-cgi/l/email-protection#462f282029062b272b2d27356825292b793533242c2325327b0f252e662b85f0252e322366123332293466312334222328" style="color:var(--pink);font-weight:600;text-decoration:none;display:inline-block;margin-top:0.4rem;"><span class="__cf_email__" data-cfemail="acc5c2cac3ecc1cdc1c7cddf82cfc3c1">[email&#160;protected]</span></a>
+          <a href="mailto:tutoren@mamkas.com" style="color:var(--pink);font-weight:600;text-decoration:none;display:inline-block;margin-top:0.4rem;">tutoren@mamkas.com</a>
         </p>
       </div>
 
-      <!-- right: feature pills -->
       <div style="position:relative;z-index:1;display:flex;flex-direction:column;gap:0.6rem;flex-shrink:0;">
         <div style="display:flex;align-items:center;gap:0.65rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:0.75rem;padding:0.6rem 1rem;">
           <span style="font-size:1rem;">🕐</span>
@@ -474,22 +457,45 @@
 
 <footer><div class="container">© <span id="year"></span> mamkas · Alle Rechte vorbehalten</div></footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
   const cards = document.querySelectorAll('.step-card');
-  let activeIndex = 0, animCleanup = {}, userPaused = false, autoTimer = null;
+  let activeIndex = 0;
+  let userPaused = false;
+  let autoTimer = null;
+  let cleanupFns = [];
+
+  // SVG ring circumference: r=20, circ = 2π×20 ≈ 125.66
+  const CIRC = 2 * Math.PI * 20;
+
+  function resetRing(index) {
+    const fill = document.getElementById('ringFill' + index);
+    if (!fill) return;
+    fill.style.transition = 'none';
+    fill.style.strokeDasharray = '0 ' + CIRC;
+    // force reflow
+    fill.getBoundingClientRect();
+  }
+
+  function animateRing(index, duration) {
+    resetRing(index);
+    const fill = document.getElementById('ringFill' + index);
+    if (!fill) return;
+    fill.getBoundingClientRect();
+    fill.style.transition = `stroke-dasharray ${duration}ms linear`;
+    fill.style.strokeDasharray = CIRC + ' 0';
+  }
+
+  function stopAll() {
+    clearTimeout(autoTimer);
+    cleanupFns.forEach(fn => fn && fn());
+    cleanupFns = [];
+    [0, 1, 2].forEach(resetRing);
+  }
 
   function activateStep(i) {
-    clearTimeout(autoTimer);
-    Object.values(animCleanup).forEach(fn => fn && fn());
-    animCleanup = {};
-
-    // Reset all rings
-    [0,1,2].forEach(j => {
-      const fill = document.getElementById('ringFill' + j);
-      if (fill) { fill.style.transition = 'none'; fill.style.strokeDasharray = '0 999'; }
-    });
+    stopAll();
 
     cards.forEach((c, j) => {
       c.classList.toggle('is-active', j === i);
@@ -501,7 +507,7 @@
       if (userPaused) return;
       autoTimer = setTimeout(() => {
         if (!userPaused) activateStep((activeIndex + 1) % 3);
-      }, 400);
+      }, 500);
     };
 
     if (i === 0) playEmail(onDone);
@@ -509,81 +515,195 @@
     if (i === 2) playSession(onDone);
   }
 
-  // Click on any card to jump to it
-  cards.forEach(c => c.addEventListener('click', () => {
-    userPaused = false;
-    activateStep(+c.dataset.index);
-  }));
-
-  // Pause on hover of entire process box
-  document.querySelector('.process').addEventListener('mouseenter', () => {
-    userPaused = true; clearTimeout(autoTimer);
-  });
-  document.querySelector('.process').addEventListener('mouseleave', () => {
-    userPaused = false; activateStep(activeIndex);
-  });
-
-  // SVG ring: r=20, circumference = 2π×20 ≈ 125.66
-  const CIRC = 2 * Math.PI * 20;
-
-  function animateBar(index, duration) {
-    // Reset all rings first
-    [0,1,2].forEach(j => {
-      const fill = document.getElementById('ringFill' + j);
-      if (fill) { fill.style.transition = 'none'; fill.style.strokeDasharray = '0 ' + CIRC; }
-    });
-    const fill = document.getElementById('ringFill' + index);
-    if (!fill) return;
-    fill.getBoundingClientRect(); // force reflow
-    fill.style.transition = `stroke-dasharray ${duration}ms linear`;
-    fill.style.strokeDasharray = CIRC + ' 0';
-  }
-
+  // ── Step 1: Email typing animation ──────────────────────────────────────
   function playEmail(onDone) {
-    const el=document.getElementById('emailTyped'),btn=document.getElementById('sendBtn'),toast=document.getElementById('sentToast');
-    const msg='Hi,\nMathe Nachhilfe (10. Klasse)\nAnalysis – di/do abends. :)';
-    el.textContent=''; btn.classList.remove('ready','sending'); toast.classList.remove('visible');
-    let i=0, timers=[];
-    // estimate total duration: chars * ~60ms + 700 + 480 + 900 ≈ msg.length*60 + 2200
-    const estimatedDur = msg.length * 62 + 350 + 700 + 480 + 900;
-    animateBar(0, estimatedDur);
-    function type(){
-      if(i<msg.length){el.textContent+=msg[i]==='\n'?'\n':msg[i];i++;timers.push(setTimeout(type,48+Math.random()*26));}
-      else{btn.classList.add('ready');timers.push(setTimeout(()=>{btn.classList.add('sending');timers.push(setTimeout(()=>{toast.classList.add('visible');timers.push(setTimeout(onDone,900));},480));},700));}
+    const el = document.getElementById('emailTyped');
+    const btn = document.getElementById('sendBtn');
+    const toast = document.getElementById('sentToast');
+
+    // Reset
+    el.textContent = '';
+    btn.className = 'send-btn';
+    toast.classList.remove('visible');
+
+    const msg = 'Hi,\nMathe Nachhilfe (10. Klasse)\nAnalysis – di/do abends. :)';
+    let i = 0;
+    const timers = [];
+
+    // Estimate total duration for ring
+    const typingDuration = msg.length * 65;
+    const totalDuration = typingDuration + 350 + 700 + 500 + 900;
+    animateRing(0, totalDuration);
+
+    function type() {
+      if (i < msg.length) {
+        el.textContent += msg[i] === '\n' ? '\n' : msg[i];
+        i++;
+        timers.push(setTimeout(type, 50 + Math.random() * 28));
+      } else {
+        btn.classList.add('ready');
+        timers.push(setTimeout(() => {
+          btn.classList.add('sending');
+          timers.push(setTimeout(() => {
+            toast.classList.add('visible');
+            timers.push(setTimeout(onDone, 900));
+          }, 500));
+        }, 700));
+      }
     }
-    timers.push(setTimeout(type,350));
-    animCleanup[0]=()=>{timers.forEach(clearTimeout); const fill=document.getElementById('ringFill0'); if(fill){fill.style.transition='none';fill.style.strokeDasharray='0 '+CIRC;}};
+
+    timers.push(setTimeout(type, 350));
+
+    cleanupFns.push(() => {
+      timers.forEach(clearTimeout);
+    });
   }
 
+  // ── Step 2: Matching animation ───────────────────────────────────────────
   function playMatch(onDone) {
-    const rows=[document.getElementById('tc1'),document.getElementById('tc2'),document.getElementById('tc3')];
-    const chks=[document.getElementById('chk1'),document.getElementById('chk2'),document.getElementById('chk3')];
-    const mag=document.getElementById('magnifier');
-    rows.forEach(r=>{if(r)r.classList.remove('visible','chosen','scanning');}); chks.forEach(c=>{if(c)c.classList.remove('visible');});
-    if(mag){mag.classList.remove('visible');mag.style.top='0px';}
-    // total: ~250 rows in + 100 delay + 1650+550+800 = ~3700ms
-    animateBar(1, 3800);
-    let timers=[];
-    rows.forEach((r,i)=>{timers.push(setTimeout(()=>{if(r)r.classList.add('visible');},150+i*260));});
-    timers.push(setTimeout(()=>{
-      if(!mag)return; mag.classList.add('visible');
-      function rowCenter(el){const a=document.getElementById('matchArena').getBoundingClientRect(),r=el.getBoundingClientRect();return(r.top-a.top)+r.height/2-19;}
-      [{idx:0,delay:0},{idx:1,delay:550},{idx:2,delay:1100},{idx:0,delay:1650,chosen:true}].forEach(({idx,delay,chosen})=>{
-        timers.push(setTimeout(()=>{
-          mag.style.top=rowCenter(rows[idx])+'px';
-          rows.forEach(r=>r.classList.remove('scanning'));
-          if(!chosen)rows[idx].classList.add('scanning');
-          else{rows[idx].classList.add('chosen');timers.push(setTimeout(()=>{mag.classList.remove('visible');},200));timers.push(setTimeout(()=>{chks[idx].classList.add('visible');timers.push(setTimeout(onDone,800));},350));}
-        },delay));
+    const rows = [
+      document.getElementById('tc1'),
+      document.getElementById('tc2'),
+      document.getElementById('tc3')
+    ];
+    const chks = [
+      document.getElementById('chk1'),
+      document.getElementById('chk2'),
+      document.getElementById('chk3')
+    ];
+    const mag = document.getElementById('magnifier');
+
+    // Reset
+    rows.forEach(r => { if (r) r.className = 'match-row'; });
+    chks.forEach(c => { if (c) c.classList.remove('visible'); });
+    if (mag) { mag.classList.remove('visible'); mag.style.top = '0px'; }
+
+    const timers = [];
+
+    // Timing breakdown:
+    // 0–780ms: rows slide in (0, 260, 520)
+    // 880ms: magnifier appears + starts scanning
+    // 880, 1430, 1980, 2530: magnifier moves
+    // 2530 + 350: chosen highlight + checkmark
+    // ~3200 + 800: onDone
+    const totalDuration = 3800 + 800;
+    animateRing(1, totalDuration);
+
+    // Slide rows in
+    rows.forEach((r, idx) => {
+      timers.push(setTimeout(() => {
+        if (r) r.classList.add('visible');
+      }, 150 + idx * 260));
+    });
+
+    // Start magnifier after rows are in
+    timers.push(setTimeout(() => {
+      if (!mag) return;
+      mag.classList.add('visible');
+
+      function getRowCenter(el) {
+        const arena = document.getElementById('matchArena');
+        if (!arena || !el) return 0;
+        const aRect = arena.getBoundingClientRect();
+        const rRect = el.getBoundingClientRect();
+        return (rRect.top - aRect.top) + rRect.height / 2 - 19;
+      }
+
+      const sequence = [
+        { idx: 0, delay: 0 },
+        { idx: 1, delay: 550 },
+        { idx: 2, delay: 1100 },
+        { idx: 0, delay: 1650, chosen: true }
+      ];
+
+      sequence.forEach(({ idx, delay, chosen }) => {
+        timers.push(setTimeout(() => {
+          if (!mag) return;
+          mag.style.top = getRowCenter(rows[idx]) + 'px';
+          rows.forEach(r => { if (r) r.classList.remove('scanning'); });
+
+          if (!chosen) {
+            if (rows[idx]) rows[idx].classList.add('scanning');
+          } else {
+            if (rows[idx]) rows[idx].classList.add('chosen');
+            timers.push(setTimeout(() => mag.classList.remove('visible'), 200));
+            timers.push(setTimeout(() => {
+              if (chks[idx]) chks[idx].classList.add('visible');
+              timers.push(setTimeout(onDone, 800));
+            }, 350));
+          }
+        }, delay));
       });
-    },150+3*260+100));
-    animCleanup[1]=()=>{timers.forEach(clearTimeout);if(mag)mag.classList.remove('visible');rows.forEach(r=>{if(r)r.classList.remove('scanning');});const fill=document.getElementById('ringFill1');if(fill){fill.style.transition='none';fill.style.strokeDasharray='0 '+CIRC;}};
+    }, 150 + 3 * 260 + 100));
+
+    cleanupFns.push(() => {
+      timers.forEach(clearTimeout);
+      if (mag) mag.classList.remove('visible');
+      rows.forEach(r => { if (r) r.classList.remove('scanning', 'chosen'); });
+    });
   }
 
+  // ── Step 3: Video call animation ─────────────────────────────────────────
   function playSession(onDone) {
-    const tt=document.getElementById('vcTileTutor'),ts=document.getElementById('vcTileStudent');
-    if(tt)tt.classList.add('speaking'); if(ts)ts.classList.remove('speaking');
-    // 4 switches × 2000ms = 8000ms + 600ms buffer
-    animateBar(2, 8600);
-    let speaker=true, count=0;
-    const iv=setInterval(()=
+    const tt = document.getElementById('vcTileTutor');
+    const ts = document.getElementById('vcTileStudent');
+
+    if (tt) tt.classList.add('speaking');
+    if (ts) ts.classList.remove('speaking');
+
+    // 5 speaker switches × ~1800ms each = ~9000ms total
+    const SWITCH_INTERVAL = 1800;
+    const SWITCHES = 5;
+    const totalDuration = SWITCHES * SWITCH_INTERVAL + 600;
+    animateRing(2, totalDuration);
+
+    let speaker = true; // true = tutor speaking
+    let count = 0;
+    const timers = [];
+
+    function switchSpeaker() {
+      count++;
+      speaker = !speaker;
+      if (tt) tt.classList.toggle('speaking', speaker);
+      if (ts) ts.classList.toggle('speaking', !speaker);
+
+      if (count < SWITCHES) {
+        timers.push(setTimeout(switchSpeaker, SWITCH_INTERVAL));
+      } else {
+        timers.push(setTimeout(onDone, 600));
+      }
+    }
+
+    timers.push(setTimeout(switchSpeaker, SWITCH_INTERVAL));
+
+    cleanupFns.push(() => {
+      timers.forEach(clearTimeout);
+      if (tt) tt.classList.add('speaking');
+      if (ts) ts.classList.remove('speaking');
+    });
+  }
+
+  // ── Click handlers ────────────────────────────────────────────────────────
+  cards.forEach(c => {
+    c.addEventListener('click', () => {
+      userPaused = false;
+      activateStep(+c.dataset.index);
+    });
+  });
+
+  // ── Pause on hover ────────────────────────────────────────────────────────
+  const processBox = document.querySelector('.process');
+  processBox.addEventListener('mouseenter', () => {
+    userPaused = true;
+    clearTimeout(autoTimer);
+  });
+  processBox.addEventListener('mouseleave', () => {
+    userPaused = false;
+    activateStep(activeIndex);
+  });
+
+  // ── Start ─────────────────────────────────────────────────────────────────
+  activateStep(0);
+</script>
+</body>
+</html>
